@@ -10,13 +10,21 @@ use tokio::net::{TcpListener, TcpStream};
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// Show verbose information
+    /// Show raw hex of packets
     #[arg(short, long)]
     verbose: bool,
 
     /// Do not use colours
     #[arg(short, long)]
     no_colour: bool,
+
+    /// Debuggee port to connect to
+    #[arg(long, default_value_t = 8000)]
+    debuggee_port: u16,
+
+    /// Debugger port to listen on
+    #[arg(long, default_value_t = 8001)]
+    debugger_port: u16,
 }
 
 struct JdwpProxy {
@@ -211,6 +219,11 @@ impl JdwpProxy {
 async fn main() {
     let args = Args::parse();
 
-    let proxy = JdwpProxy::new(8000, 8001, args.verbose, !args.no_colour);
+    let proxy = JdwpProxy::new(
+        args.debuggee_port,
+        args.debugger_port,
+        args.verbose,
+        !args.no_colour,
+    );
     proxy.start_proxy().await;
 }
