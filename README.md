@@ -1,6 +1,6 @@
 # JDWP Proxy
 
-A simple, Proxy for visualising JDWP packets.
+A simple proxy for visualising JDWP packets.
 
 This project was written for a talk on JDWP, and in order to demonstrate what packets get sent between a debugger and
 debuggee, I created this simple tool.
